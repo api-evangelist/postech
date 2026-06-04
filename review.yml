@@ -1,0 +1,45 @@
+---
+name: Pohang University of Science and Technology
+description: Pohang University of Science and Technology public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/postech/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 2
+    summary: >-
+      POSTECH has no general developer portal or open-data API program that I
+      could confirm. The one verified, live, machine-readable API is the OASIS
+      Library institutional repository OAI-PMH 2.0 endpoint, which responded
+      correctly to Identify, ListMetadataFormats (12 formats), and ListSets (163
+      sets). The official English website resolves and lists login-gated systems
+      (PODIUM portal, PLMS LMS, admissions, certificate center) but no public
+      APIs. The github.com/postech org is unrelated (a stale 2013 TaskRepo);
+      POSTECH research labs maintain separate GitHub orgs (POSTECH-CVLab,
+      postech-imlab, etc.) that are lab projects rather than institutional APIs.
+      No endpoints were fabricated; only URLs I probed are listed below.
+    endpoints:
+      - url: https://oasis.postech.ac.kr/oai/request?verb=Identify
+        status: 200
+        note: OAI-PMH 2.0 Identify; repo "OASIS Repository@POSTECHLIBRARY", earliest 2014-12-01.
+      - url: https://oasis.postech.ac.kr/oai/request?verb=ListMetadataFormats
+        status: 200
+        note: Returns 12 metadata formats (oai_dc, qdc, mods, mets, marc, dim, xoai, etc.).
+      - url: https://oasis.postech.ac.kr/oai/request?verb=ListSets
+        status: 200
+        note: Valid response, 163 sets across departments and content types.
+      - url: https://oasis.postech.ac.kr/rest/communities
+        status: 0
+        note: Returned a JS loading shell, not a REST JSON payload; REST API not confirmed.
+      - url: https://www.postech.ac.kr/eng/
+        status: 200
+        note: Official English site; login-gated systems listed, no public API or open data.
+      - url: https://podium.postech.ac.kr
+        status: 200
+        note: PODIUM portal, authenticated; no public API documented.
+      - url: https://github.com/postech
+        status: 200
+        note: Unrelated stale org (2013 TaskRepo), not POSTECH's institutional GitHub.
+      - url: https://kr.linkedin.com/school/pohang-university-of-science-and-technology/
+        status: 200
+        note: Official LinkedIn school page.

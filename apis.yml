@@ -1,0 +1,75 @@
+---
+aid: postech
+name: Pohang University of Science and Technology
+description: >-
+  Pohang University of Science and Technology (POSTECH) is a private research
+  university in Pohang, South Korea, founded in 1986 by the steelmaker POSCO and
+  ranked #87 in the QS World University Rankings 2025. POSTECH operates a public
+  English-language website and a range of authenticated institutional systems
+  (PODIUM portal, PLMS learning management, admissions, and certificate
+  services). Its primary confirmed public, machine-readable API surface is the
+  POSTECH Library OASIS institutional repository, a DSpace platform that exposes
+  a live OAI-PMH 2.0 metadata-harvesting endpoint. No general-purpose developer
+  portal or open-data API program was found; most other systems are
+  login-gated.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/postech/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research
+  - Institutional Repository
+  - OAI-PMH
+  - DSpace
+  - Library
+  - South Korea
+  - Korea
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: postech:oasis-oai-pmh
+    name: OASIS Repository OAI-PMH
+    description: >-
+      Live OAI-PMH 2.0 metadata-harvesting endpoint for the POSTECH Library
+      OASIS institutional repository (DSpace). Verified to respond to Identify,
+      ListMetadataFormats, and ListSets. Repository name reported as "OASIS
+      Repository@POSTECHLIBRARY"; earliest datestamp 2014-12-01; granularity
+      YYYY-MM-DDThh:mm:ssZ. Supports 12 metadata formats including oai_dc, qdc,
+      mods, mets, marc, didl, ore, rdf, dim, xoai, etdms, and uketd_dc, exposing
+      163 sets across academic departments and content types (journal papers,
+      conference papers, theses).
+    humanURL: https://www.openarchives.org/OAI/openarchivesprotocol.html
+    baseURL: https://oasis.postech.ac.kr/oai/request
+    tags: [ OAI-PMH, DSpace, Institutional Repository, Metadata, Library, Research ]
+    properties:
+      - type: Documentation
+        url: https://www.openarchives.org/OAI/openarchivesprotocol.html
+      - type: x-Identify
+        url: https://oasis.postech.ac.kr/oai/request?verb=Identify
+      - type: x-ListMetadataFormats
+        url: https://oasis.postech.ac.kr/oai/request?verb=ListMetadataFormats
+common:
+  - type: Website
+    url: https://www.postech.ac.kr/eng/
+  - type: LinkedIn
+    url: https://kr.linkedin.com/school/pohang-university-of-science-and-technology/
+  - type: x-Portal
+    url: https://podium.postech.ac.kr
+  - type: x-Repository
+    url: https://oasis.postech.ac.kr/
+  - type: Plans
+    url: plans/postech-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/postech-rate-limits.yml
+  - type: FinOps
+    url: finops/postech-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
