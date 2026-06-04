@@ -1,0 +1,46 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "postech": "https://www.postech.ac.kr/eng/#",
+    "oai": "http://www.openarchives.org/OAI/2.0/",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "name": "name",
+    "url": "url",
+    "description": "description",
+    "foundingDate": "foundingDate",
+    "location": "location",
+    "sameAs": "sameAs",
+    "CollegeOrUniversity": "CollegeOrUniversity",
+    "repository": {
+      "@id": "postech:repository",
+      "@type": "@id"
+    },
+    "oaiPmhEndpoint": {
+      "@id": "postech:oaiPmhEndpoint",
+      "@type": "@id"
+    },
+    "metadataFormat": "postech:metadataFormat",
+    "set": "postech:set",
+    "record": {
+      "@id": "oai:record",
+      "@type": "@id"
+    },
+    "identifier": "dc:identifier",
+    "title": "dc:title",
+    "creator": "dc:creator",
+    "date": "dc:date",
+    "subject": "dc:subject",
+    "type": "dc:type"
+  },
+  "@type": "CollegeOrUniversity",
+  "name": "Pohang University of Science and Technology",
+  "url": "https://www.postech.ac.kr/eng/",
+  "foundingDate": "1986",
+  "description": "Private research university in Pohang, South Korea, founded in 1986 by POSCO.",
+  "sameAs": [
+    "https://kr.linkedin.com/school/pohang-university-of-science-and-technology/",
+    "https://oasis.postech.ac.kr/"
+  ],
+  "repository": "https://oasis.postech.ac.kr/",
+  "oaiPmhEndpoint": "https://oasis.postech.ac.kr/oai/request"
+}
