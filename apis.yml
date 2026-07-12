@@ -54,6 +54,8 @@ apis:
       - type: x-ListMetadataFormats
         url: https://oasis.postech.ac.kr/oai/request?verb=ListMetadataFormats
 common:
+  - type: DomainSecurity
+    url: security/postech-domain-security.yml
   - type: Website
     url: https://www.postech.ac.kr/eng/
   - type: LinkedIn
