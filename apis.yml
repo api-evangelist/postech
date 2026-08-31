@@ -1,100 +1,344 @@
 ---
 aid: postech
 name: Pohang University of Science and Technology
+x-type: university
+x-category: Private Research University
 description: >-
-  Pohang University of Science and Technology (POSTECH) is a private research
-  university in Pohang, South Korea, founded in 1986 by the steelmaker POSCO and
-  ranked #87 in the QS World University Rankings 2025. POSTECH operates a public
-  English-language website and a range of authenticated institutional systems
-  (PODIUM portal, PLMS learning management, admissions, and certificate
-  services). Its primary confirmed public, machine-readable API surface is the
-  POSTECH Library OASIS institutional repository, a DSpace platform that exposes
-  a live OAI-PMH 2.0 metadata-harvesting endpoint. No general-purpose developer
-  portal or open-data API program was found; most other systems are
-  login-gated.
+  Pohang University of Science and Technology (POSTECH) is a private research university in Pohang,
+  North Gyeongsang, South Korea, founded in 1986 by the steelmaker POSCO and consistently ranked
+  inside the QS world top 100. POSTECH operates no developer portal, no open-data program and no
+  API it authored itself — but it is not empty, and three genuinely institution-operated
+  machine-readable surfaces were verified live on 2026-08-30, all of them on POSTECH's own network
+  (141.223.0.0/16). The OASIS institutional repository serves a fully anonymous OAI-PMH 2.0
+  harvesting endpoint over a corpus of 106,805 records in twelve metadata formats across 163 sets,
+  reaching back to 2014. POSTECH runs its own SAML 2.0 identity provider at idpass.postech.ac.kr,
+  registered in the KAFE federation since 2017 and resolvable through eduGAIN, supporting the
+  REFEDS Research and Scholarship entity category and asserting SIRTFI — machine-readable
+  institutional infrastructure that almost nothing in this cohort catalogues. And POSTECH's LMS
+  publishes a live, public LTI 1.3 Advantage platform keyset and OAuth 2.0 token endpoint, which
+  most institution-hosted Moodles keep unreachable. Everything else is a login wall or someone
+  else's platform: the PODIUM portal, admissions and certificate systems are gated; the DSpace REST
+  interface sits behind a JavaScript bot challenge that returns 200 with a challenge shell; and the
+  thesis pipeline runs through postech.dcollection.net, a tenancy on the KERIS-operated national
+  dCollection platform, recorded here as a relationship rather than as POSTECH's engineering.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
-  commercial: true
-  callable_host: false
-  label: Hosted service · you call their endpoint
-  confidence: medium
+  commercial: false
+  callable_host: true
+  label: Institution-operated endpoints · you call their host
+  confidence: high
   source:
-  - pricing
-  generated: '2026-08-28'
-  method: derived
+  - probe
+  generated: '2026-08-30'
+  method: probed
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Free
-  confidence: medium
+  try_now: true
+  public: true
+  label: Free · anonymous harvesting, no registration offered
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
-  method: derived
-position: Consumer
-access: 3rd-Party
+  - probe
+  generated: '2026-08-30'
+  method: probed
+position: Provider
+access: 1st-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/postech.png
 url: https://raw.githubusercontent.com/api-evangelist/postech/refs/heads/main/apis.yml
 tags:
-  - Education
-  - Higher Education
-  - University
-  - Research
-  - Institutional Repository
+- University
+- Higher Education
+- Education
+- South Korea
+- Korea
+- Asia
+- Private Research University
+- Research
+- Research Data
+- Institutional Repository
+- OAI-PMH
+- DSpace
+- Library
+- Identity Federation
+- SAML
+- eduGAIN
+- LTI
+- Learning Management System
+- Course Catalog
+created: '2026-06-03'
+modified: '2026-08-30'
+specificationVersion: '0.23'
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    POSTECH publishes no developer portal, no API documentation and no open-data program, and the
+    June 2026 profile concluded there was one surface here. Re-probed on 2026-08-30 there are four
+    institution-operated surfaces plus one tenancy, and three of the four are machine-readable
+    without credentials. The OASIS OAI-PMH endpoint answers Identify, ListMetadataFormats, ListSets
+    and ListRecords anonymously — ListRecords returns real Dublin Core with completeListSize
+    106,805, which is the probe that distinguishes a working harvesting surface from a link.
+    POSTECH's SAML 2.0 identity provider is registered in eduGAIN through KAFE and its metadata is
+    publicly retrievable from the federation even though the IdP's own metadata URL is admin-gated
+    behind a login redirect. The LMS exposes an LTI 1.3 platform JWKS and OAuth 2.0 token endpoint
+    without credentials. Two things are genuinely closed and are recorded as such rather than as
+    gaps: the DSpace REST interface returns HTTP 200 carrying a JavaScript bot challenge instead of
+    JSON, and Moodle Web Services answers every anonymous call with errorcode invalidtoken. No
+    vendor contract has been saved under POSTECH's name; the dCollection thesis platform is
+    recorded as a tenant relationship. The Korean-language surface was searched as well as the
+    English one — the privacy and copyright policies exist on both, and the LMS returns Korean
+    error messages by default.
+  evidence:
+  - url: https://oasis.postech.ac.kr/oai/request?verb=Identify
+    status: 200
+  - url: https://oasis.postech.ac.kr/oai/request?verb=ListRecords&metadataPrefix=oai_dc
+    status: 200
+  - url: https://oasis.postech.ac.kr/oai/request?verb=ListSets
+    status: 200
+  - url: https://plms.postech.ac.kr/mod/lti/certs.php
+    status: 200
+  - url: https://plms.postech.ac.kr/mod/lti/token.php
+    status: 400
+  - url: https://plms.postech.ac.kr/webservice/rest/server.php
+    status: 200
+  - url: https://technical.edugain.org/api.php?action=show_entity&entityid=https://idpass.postech.ac.kr/idp/simplesamlphp&format=json
+    status: 200
+  - url: https://idpass.postech.ac.kr/simplesaml/saml2/idp/metadata.php
+    status: 302
+  - url: https://oasis.postech.ac.kr/server/api
+    status: 200
+  - url: https://postech.dcollection.net/
+    status: 200
+  - url: https://www.postech.ac.kr/eng/
+    status: 200
+apis:
+- aid: postech:oasis-oai-pmh
+  name: POSTECH OASIS Repository OAI-PMH
+  x-operator: institution
+  x-operator-basis: >-
+    oasis.postech.ac.kr is under POSTECH's registrable domain and resolves to 141.223.5.61, inside
+    POSTECH's own /16 alongside www.postech.ac.kr and idpass.postech.ac.kr. The repository software
+    is DSpace and the OAI adminEmail is a Korean integrator address, but the host, the deployment
+    and the corpus are POSTECH's.
+  description: >-
+    Anonymous OAI-PMH 2.0 metadata harvesting over the POSTECH Library OASIS institutional
+    repository. Verified live on 2026-08-30: repositoryName "OASIS Repository@POSTECHLIBRARY",
+    repositoryIdentifier oasis.postech.ac.kr, protocolVersion 2.0, earliestDatestamp
+    2014-12-01T11:46:04Z, granularity YYYY-MM-DDThh:mm:ssZ, deletedRecord transient. Twelve
+    metadata formats (oai_dc, qdc, mods, mets, marc, didl, ore, rdf, dim, xoai, etdms, uketd_dc),
+    163 sets across departments and content types, and a ListRecords completeListSize of 106,805
+    records paged 100 at a time with working resumption tokens. This path is exempt from the
+    JavaScript bot challenge that fronts the rest of the host, which makes it the single usable
+    programmable surface POSTECH offers to an anonymous client.
+  humanURL: https://oasis.postech.ac.kr/
+  baseURL: https://oasis.postech.ac.kr/oai/request
+  tags:
   - OAI-PMH
   - DSpace
+  - Institutional Repository
+  - Research Data
   - Library
-  - South Korea
-  - Korea
-created: '2026-06-03'
-modified: '2026-06-03'
-specificationVersion: '0.23'
-apis:
-  - aid: postech:oasis-oai-pmh
-    name: OASIS Repository OAI-PMH
-    description: >-
-      Live OAI-PMH 2.0 metadata-harvesting endpoint for the POSTECH Library
-      OASIS institutional repository (DSpace). Verified to respond to Identify,
-      ListMetadataFormats, and ListSets. Repository name reported as "OASIS
-      Repository@POSTECHLIBRARY"; earliest datestamp 2014-12-01; granularity
-      YYYY-MM-DDThh:mm:ssZ. Supports 12 metadata formats including oai_dc, qdc,
-      mods, mets, marc, didl, ore, rdf, dim, xoai, etdms, and uketd_dc, exposing
-      163 sets across academic departments and content types (journal papers,
-      conference papers, theses).
-    humanURL: https://www.openarchives.org/OAI/openarchivesprotocol.html
-    baseURL: https://oasis.postech.ac.kr/oai/request
-    tags: [ OAI-PMH, DSpace, Institutional Repository, Metadata, Library, Research ]
-    properties:
-      - type: Documentation
-        url: https://www.openarchives.org/OAI/openarchivesprotocol.html
-      - type: x-Identify
-        url: https://oasis.postech.ac.kr/oai/request?verb=Identify
-      - type: x-ListMetadataFormats
-        url: https://oasis.postech.ac.kr/oai/request?verb=ListMetadataFormats
-common:
-  - type: DomainSecurity
-    url: security/postech-domain-security.yml
-  - type: Website
-    url: https://www.postech.ac.kr/eng/
-  - type: LinkedIn
-    url: https://kr.linkedin.com/school/pohang-university-of-science-and-technology/
-  - type: x-Portal
-    url: https://podium.postech.ac.kr
-  - type: x-Repository
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/postech-oasis-oai-pmh-openapi.yml
+  - type: Examples
+    url: examples/postech-oasis-oai-pmh-examples.yml
+  - type: Authentication
+    url: authentication/postech-authentication.yml
+  - type: ErrorCatalog
+    url: errors/postech-errors.yml
+  - type: Conformance
+    url: conformance/postech-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/postech-lifecycle.yml
+  - type: ResearchRepository
     url: https://oasis.postech.ac.kr/
-  - type: Plans
-    url: plans/postech-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/postech-rate-limits.yml
-  - type: FinOps
-    url: finops/postech-finops.yml
-  - type: Review
-    url: review.yml
+  - type: Documentation
+    url: https://www.openarchives.org/OAI/openarchivesprotocol.html
+  - type: x-Identify
+    url: https://oasis.postech.ac.kr/oai/request?verb=Identify
+  - type: x-ListMetadataFormats
+    url: https://oasis.postech.ac.kr/oai/request?verb=ListMetadataFormats
+  - type: x-ListSets
+    url: https://oasis.postech.ac.kr/oai/request?verb=ListSets
+- aid: postech:identity-federation
+  name: POSTECH SAML 2.0 Identity Provider
+  x-operator: institution
+  x-operator-basis: >-
+    idpass.postech.ac.kr resolves to 141.223.5.141 inside POSTECH's own network, and the eduGAIN
+    entity record names POSTECH as the entity with scope postech.ac.kr. An identity provider is
+    institution-operated by definition — it asserts who is a member of the institution.
+  description: >-
+    POSTECH's own SAML 2.0 identity provider, entityID
+    https://idpass.postech.ac.kr/idp/simplesamlphp, registered in KAFE (the Korea Access Federation,
+    run on KREONET) since registrationInstant 2017-06-23 and first seen in eduGAIN 2017-06-29. The
+    metadata is machine-readable and internationally resolvable through the eduGAIN technical
+    database: IDPSSODescriptor with SingleSignOnService and SingleLogoutService under
+    /simplesaml/saml2/idp/, an X.509 signing key, shibmd:Scope postech.ac.kr, support for the
+    REFEDS Research and Scholarship entity category, a SIRTFI assurance assertion and a REFEDS
+    security contact. The IdP's own metadata URL is admin-gated and 302s to a login form, so the
+    federation copy is the public one. The software is SimpleSAMLphp rather than Shibboleth.
+  humanURL: https://www.kafe.or.kr/
+  baseURL: https://idpass.postech.ac.kr/
+  x-sso-url: https://idpass.postech.ac.kr/simplesaml/saml2/idp/SSOService.php
+  x-slo-url: https://idpass.postech.ac.kr/simplesaml/saml2/idp/SingleLogoutService.php
+  x-entity-id: https://idpass.postech.ac.kr/idp/simplesamlphp
+  tags:
+  - Identity Federation
+  - SAML
+  - eduGAIN
+  - KAFE
+  - Single Sign-On
+  - SIRTFI
+  properties:
+  - type: IdentityFederation
+    url: https://technical.edugain.org/api.php?action=show_entity&entityid=https://idpass.postech.ac.kr/idp/simplesamlphp&format=json
+  - type: Authentication
+    url: authentication/postech-authentication.yml
+  - type: Conformance
+    url: conformance/postech-conformance.yml
+  - type: Documentation
+    url: https://www.kafe.or.kr/
+- aid: postech:plms-lti
+  name: POSTECH LMS (PLMS) LTI 1.3 Advantage Platform
+  x-operator: institution
+  x-operator-basis: >-
+    plms.postech.ac.kr is POSTECH's registrable domain; the host is fronted by a Naver Cloud load
+    balancer, which is hosting, not operation. The LTI platform identity is POSTECH's — the keys
+    below sign POSTECH-issued id_tokens.
+  x-contract-origin: >-
+    The interface is Moodle's implementation of the IMS Global / 1EdTech LTI 1.3 specification, not
+    a POSTECH-authored contract. No Moodle or LTI specification document is saved under POSTECH's
+    slug; what is recorded here is POSTECH's deployment of it.
+  description: >-
+    POSTECH's learning management system is an institution-hosted Moodle (coursemos distribution)
+    acting as an LTI 1.3 Advantage platform, and unusually for this cohort its platform endpoints
+    are publicly reachable. The JSON Web Key Set at /mod/lti/certs.php returns a real RSA RS256 key
+    (kid 13acf24233904ff6db00) with no credentials — the keyset an external tool needs to verify
+    POSTECH-issued id_tokens — and the paired OAuth 2.0 token service at /mod/lti/token.php answers
+    an unparameterised request with an RFC 6749 invalid_request object rather than an HTML page.
+    Tool registration itself is an LMS administrator action and is not open to outside developers.
+  humanURL: https://plms.postech.ac.kr/
+  baseURL: https://plms.postech.ac.kr/mod/lti/certs.php
+  tags:
+  - LTI
+  - Learning Management System
+  - Moodle
+  - OAuth 2.0
+  - JWKS
+  - Education
+  properties:
+  - type: Authentication
+    url: authentication/postech-authentication.yml
+  - type: Conformance
+    url: conformance/postech-conformance.yml
+  - type: ErrorCatalog
+    url: errors/postech-errors.yml
+  - type: x-JWKS
+    url: https://plms.postech.ac.kr/mod/lti/certs.php
+  - type: x-TokenEndpoint
+    url: https://plms.postech.ac.kr/mod/lti/token.php
+  - type: CourseCatalog
+    url: https://plms.postech.ac.kr/local/ubion/course/lists.php?lang=en
+- aid: postech:plms-webservices
+  name: POSTECH LMS (PLMS) Moodle Web Services
+  x-operator: institution
+  x-operator-basis: Same host and same basis as the LTI platform above.
+  x-contract-origin: >-
+    Moodle's web services function catalog, not POSTECH-authored. No Moodle contract is saved under
+    POSTECH's slug.
+  description: >-
+    The Moodle Web Services REST interface is enabled on POSTECH's LMS and is publicly reachable,
+    but every anonymous call returns the moodle_exception errorcode invalidtoken. Tokens are issued
+    inside the LMS to POSTECH account holders; there is no public registration, no documented
+    function catalog and no external developer program, so the surface is real and gated rather
+    than absent. Recorded because a gated surface is a different measurement from a missing one.
+  humanURL: https://plms.postech.ac.kr/
+  baseURL: https://plms.postech.ac.kr/webservice/rest/server.php
+  tags:
+  - Moodle
+  - Learning Management System
+  - REST
+  - Authenticated
+  - Education
+  properties:
+  - type: Authentication
+    url: authentication/postech-authentication.yml
+  - type: ErrorCatalog
+    url: errors/postech-errors.yml
+- aid: postech:dcollection
+  name: POSTECH dCollection Thesis Repository (KERIS tenancy)
+  x-operator: tenant
+  x-operator-basis: >-
+    postech.dcollection.net is an institution-specific subdomain on the KERIS-operated national
+    dCollection platform and resolves to 210.102.100.94, outside POSTECH's network. The theses and
+    the DOIs of record are POSTECH's; the platform, the software and any contract it exposes are
+    KERIS's. Recorded as a relationship, with no dCollection specification saved under POSTECH's
+    slug.
+  description: >-
+    POSTECH's tenancy on dCollection, the Korea Education and Research Information Service national
+    digital thesis and dissertation distribution system. The relationship is evidenced from
+    POSTECH's own OAI-PMH output: records harvested from OASIS carry dc:identifier values pointing
+    at postech.dcollection.net item pages, so the thesis pipeline demonstrably runs through this
+    platform. This is a real institutional surface and one of the few programmable footholds
+    POSTECH has, but it is not POSTECH's engineering.
+  humanURL: https://postech.dcollection.net/
+  baseURL: https://postech.dcollection.net/
+  tags:
+  - Research Data
+  - Institutional Repository
+  - Theses
+  - KERIS
+  - Tenant
+  properties:
+  - type: ResearchRepository
+    url: https://postech.dcollection.net/
+common:
+- type: Website
+  url: https://www.postech.ac.kr/eng/
+- type: PrivacyPolicy
+  url: https://www.postech.ac.kr/eng/usage-guide/privacy_policy.do
+- type: TermsOfService
+  url: https://www.postech.ac.kr/kor/usage-guide/copyright_policy.do
+- type: LinkedIn
+  url: https://kr.linkedin.com/school/pohang-university-of-science-and-technology/
+- type: Blog
+  url: https://www.postech.ac.kr/eng/news-center/university_news.do
+- type: ResearchRepository
+  url: https://oasis.postech.ac.kr/
+- type: LibraryCatalog
+  url: https://library.postech.ac.kr/
+- type: CourseCatalog
+  url: https://plms.postech.ac.kr/local/ubion/course/lists.php?lang=en
+- type: IdentityFederation
+  url: https://technical.edugain.org/api.php?action=show_entity&entityid=https://idpass.postech.ac.kr/idp/simplesamlphp&format=json
+- type: Portal
+  url: https://podium.postech.ac.kr/
+- type: Authentication
+  url: authentication/postech-authentication.yml
+- type: Conformance
+  url: conformance/postech-conformance.yml
+- type: ErrorCatalog
+  url: errors/postech-errors.yml
+- type: Lifecycle
+  url: lifecycle/postech-lifecycle.yml
+- type: Examples
+  url: examples/postech-oasis-oai-pmh-examples.yml
+- type: DomainSecurity
+  url: security/postech-domain-security.yml
+- type: Plans
+  url: plans/postech-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/postech-rate-limits.yml
+- type: FinOps
+  url: finops/postech-finops.yml
+- type: Review
+  url: review.yml
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

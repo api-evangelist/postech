@@ -4,12 +4,15 @@
     {
       "source": "https://www.postech.ac.kr/eng/news-center/university_news.do",
       "feed_url": "https://www.postech.ac.kr/eng/news-center/university_news.do",
-      "title": "POSTECH University News",
+      "title": "",
       "saved": 0,
-      "method": "none",
-      "error": "parse_failed"
+      "method": "none"
+    },
+    {
+      "source": "https://kr.linkedin.com/school/pohang-university-of-science-and-technology/",
+      "error": "HTTPError"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-08-22T20:08:02Z"
+  "fetched": "2026-08-30T22:33:40Z"
 }
