@@ -229,6 +229,13 @@ apis:
   - LTI
   - Learning Management System
   - Moodle
+  - Authentication
+  - JWKS
+  - Education
+  tags_raw:
+  - LTI
+  - Learning Management System
+  - Moodle
   - OAuth 2.0
   - JWKS
   - Education
