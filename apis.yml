@@ -54,6 +54,25 @@ tags:
 - Higher Education
 - Education
 - South Korea
+- Asia
+- Private Research University
+- Research
+- Research Data
+- Institutional Repository
+- OAI-PMH
+- DSpace
+- Library
+- Identity Federation
+- SAML
+- eduGAIN
+- LTI
+- Learning Management System
+- Course Catalog
+tags_raw:
+- University
+- Higher Education
+- Education
+- South Korea
 - Korea
 - Asia
 - Private Research University
@@ -138,6 +157,13 @@ apis:
   x-slo-url: https://idpass.postech.ac.kr/simplesaml/saml2/idp/SingleLogoutService.php
   x-entity-id: https://idpass.postech.ac.kr/idp/simplesamlphp
   tags:
+  - Identity Federation
+  - SAML
+  - eduGAIN
+  - KAFE
+  - SSO
+  - SIRTFI
+  tags_raw:
   - Identity Federation
   - SAML
   - eduGAIN
@@ -245,6 +271,12 @@ apis:
   humanURL: https://postech.dcollection.net/
   baseURL: https://postech.dcollection.net/
   tags:
+  - Research Data
+  - Institutional Repository
+  - Theses
+  - KERIS
+  - Tenants
+  tags_raw:
   - Research Data
   - Institutional Repository
   - Theses
