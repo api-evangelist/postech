@@ -64,7 +64,7 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Pohang University of Science and Technology (POSTECH) is a private research university in Pohang, South Korea, founded in 1986 by POSCO and ranked #87 in the QS World University Rankings 2025. This repository catalogs POSTECH's public developer/API footprint as an [APIs.json](https://apisjson.org) profile. The primary confirmed public, machine-readable API is the POSTECH Library OASIS institutional repository's OAI-PMH 2.0 metadata-harvesting endpoint.
+Pohang University of Science and Technology (POSTECH) is a private research university in Pohang, South Korea, founded in 1986 by POSCO. This repository catalogs POSTECH's public, machine-readable footprint as an [APIs.json](https://apisjson.org) profile, with **operator attribution settled before any artifact was saved** — a university is a federation of buyers, and most surfaces that appear to be an institution's are a vendor's contract running under its name.
 
 - APIs.json: https://raw.githubusercontent.com/api-evangelist/postech/refs/heads/main/apis.yml
 - Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=postech-api-evangelist&utm_content=repo
@@ -72,42 +72,71 @@ Pohang University of Science and Technology (POSTECH) is a private research univ
 ## Type
 
 - Index
-- Consumer
-- 3rd-Party
+- Provider
+- 1st-Party
 
 ## Tags
 
-Education, Higher Education, University, Research, Institutional Repository, OAI-PMH, DSpace, Library, South Korea, Korea
+University, Higher Education, Education, South Korea, Korea, Asia, Private Research University, Research, Research Data, Institutional Repository, OAI-PMH, DSpace, Library, Identity Federation, SAML, eduGAIN, LTI, Learning Management System, Course Catalog
 
-## APIs
+## Surfaces
 
-- **OASIS Repository OAI-PMH** — Live OAI-PMH 2.0 metadata-harvesting endpoint for the POSTECH Library OASIS institutional repository (DSpace). Base URL: `https://oasis.postech.ac.kr/oai/request`. Verified responding to Identify, ListMetadataFormats (12 formats), and ListSets (163 sets). Protocol docs: https://www.openarchives.org/OAI/openarchivesprotocol.html
+Every entry carries an `x-operator`: `institution` means POSTECH runs the thing; `tenant` means POSTECH's data on someone else's platform.
 
-## Plans / Rate Limits / FinOps
+| Surface | Operator | State |
+|---|---|---|
+| **OASIS Repository OAI-PMH** — `https://oasis.postech.ac.kr/oai/request` | institution | Anonymous. 106,805 records, 163 sets, 12 metadata formats, earliest datestamp 2014-12-01. |
+| **SAML 2.0 Identity Provider** — `https://idpass.postech.ac.kr/idp/simplesamlphp` | institution | Registered in KAFE since 2017, resolvable via eduGAIN. REFEDS R&S + SIRTFI. |
+| **PLMS LTI 1.3 Advantage platform** — `https://plms.postech.ac.kr/mod/lti` | institution | Public platform JWKS and OAuth 2.0 token endpoint. Tool registration is admin-only. |
+| **PLMS Moodle Web Services** — `https://plms.postech.ac.kr/webservice/rest/server.php` | institution | Live but token-gated; anonymous calls return `invalidtoken`. |
+| **dCollection thesis repository** — `https://postech.dcollection.net/` | tenant | KERIS-operated national platform. Relationship recorded; no KERIS contract saved here. |
 
+## Domain Standard Conformance (`education` regime)
+
+Evidenced by live probe, recorded in [conformance/postech-conformance.yml](conformance/postech-conformance.yml):
+
+- **oai-pmh 2.0** — conformant. Identify, ListMetadataFormats, ListSets and ListRecords all answer anonymously.
+- **lti 1.3** — conformant. Public platform JWKS at `/mod/lti/certs.php`, RFC 6749 token endpoint at `/mod/lti/token.php`.
+- **saml 2.0** — conformant. Full IdP metadata published through eduGAIN.
+- **shibboleth** — partial. The Shibboleth metadata profile (`shibmd:Scope`) on SimpleSAMLphp, not Shibboleth software.
+
+No `scim`, `oneroster`, `ed-fi`, `caliper`, `qti`, `orcid`, `datacite` or `crossref` evidence was found, and none was invented.
+
+## Artifacts
+
+- OpenAPI (derived, OAI-PMH): [openapi/postech-oasis-oai-pmh-openapi.yml](openapi/postech-oasis-oai-pmh-openapi.yml)
+- Conformance: [conformance/postech-conformance.yml](conformance/postech-conformance.yml)
+- Authentication: [authentication/postech-authentication.yml](authentication/postech-authentication.yml)
+- Errors: [errors/postech-errors.yml](errors/postech-errors.yml)
+- Lifecycle: [lifecycle/postech-lifecycle.yml](lifecycle/postech-lifecycle.yml)
+- Examples: [examples/postech-oasis-oai-pmh-examples.yml](examples/postech-oasis-oai-pmh-examples.yml)
 - Plans & Pricing: [plans/postech-plans-pricing.yml](plans/postech-plans-pricing.yml)
 - Rate Limits: [rate-limits/postech-rate-limits.yml](rate-limits/postech-rate-limits.yml)
 - FinOps: [finops/postech-finops.yml](finops/postech-finops.yml)
+- Review (probe log): [review.yml](review.yml)
 
 ## Timestamps
 
 - Created: 2026-06-03
-- Modified: 2026-06-03
+- Modified: 2026-08-30
 
 ## Common Properties
 
 - Website: https://www.postech.ac.kr/eng/
+- Privacy Policy: https://www.postech.ac.kr/eng/usage-guide/privacy_policy.do
+- Library: https://library.postech.ac.kr/
+- Research Repository (OASIS): https://oasis.postech.ac.kr/
+- Course Catalog (PLMS): https://plms.postech.ac.kr/local/ubion/course/lists.php?lang=en
+- Portal (PODIUM): https://podium.postech.ac.kr/
 - LinkedIn: https://kr.linkedin.com/school/pohang-university-of-science-and-technology/
-- Portal (PODIUM): https://podium.postech.ac.kr
-- Repository (OASIS): https://oasis.postech.ac.kr/
-- Review: [review.yml](review.yml)
 
 ## Notes
 
-- No general-purpose developer portal or open-data API program was found for POSTECH. Most institutional systems (PODIUM portal, PLMS LMS, admissions, certificate center) are login-gated with no documented public API.
-- Only the OASIS OAI-PMH endpoint was verified as a live, public, machine-readable API. The DSpace REST endpoint (`/rest/communities`) returned a JavaScript loading shell rather than a JSON payload, so it is not cataloged as confirmed.
-- The `github.com/postech` org is unrelated (a stale 2013 TaskRepo). POSTECH research labs run separate GitHub orgs (e.g. POSTECH-CVLab, postech-imlab), which are lab projects, not institutional APIs.
-- No endpoints were fabricated; see [review.yml](review.yml) for probed URLs and their HTTP statuses.
+- POSTECH operates **no developer portal, no open-data program and no API it authored itself**. Every surface above is POSTECH's deployment of someone else's protocol — OAI-PMH, SAML 2.0, LTI 1.3 — on POSTECH's own infrastructure. That is a correct and complete measurement, not a thin one.
+- The DSpace REST interface (`/rest`, `/server/api`) returns **HTTP 200 carrying a JavaScript bot challenge**, not JSON. A client trusting the status code would mistake the challenge page for an API response. No REST contract is recorded.
+- The IdP's own metadata URL 302s to a login form; the machine-readable copy lives in the eduGAIN technical database. A harvester hitting only the obvious local URL would wrongly conclude there is no identity surface here.
+- `github.com/postech` is an unrelated stale 2013 org. POSTECH research labs run their own GitHub orgs (POSTECH-CVLab, postech-imlab); those are lab projects, not institutional APIs, and are **not** recorded as POSTECH's GitHub organization.
+- No endpoints were fabricated. Every URL in this profile was probed, and the status codes are in [review.yml](review.yml).
 
 ## Maintainers
 

@@ -1,0 +1,159 @@
+openapi: 3.1.0
+info:
+  title: POSTECH OASIS Repository OAI-PMH
+  version: '2.0'
+  summary: OAI-PMH 2.0 metadata harvesting interface for the POSTECH Library OASIS institutional repository.
+  description: >-
+    Machine-readable description of the OAI-PMH 2.0 harvesting endpoint operated by POSTECH Library
+    at https://oasis.postech.ac.kr/oai/request, derived from live, credential-free probes on
+    2026-08-30 rather than from any document POSTECH publishes.
+
+
+    POSTECH publishes no OpenAPI for this endpoint. This document is API Evangelist's derivation of
+    the endpoint's observed behaviour and MUST NOT be read as a POSTECH-authored contract. The
+    protocol itself is the Open Archives Initiative's, and the repository software is DSpace; what
+    is POSTECH's here is the deployment, the host, and the corpus. Verified on 2026-08-30:
+    repositoryName "OASIS Repository@POSTECHLIBRARY", repositoryIdentifier oasis.postech.ac.kr,
+    protocolVersion 2.0, earliestDatestamp 2014-12-01T11:46:04Z, granularity YYYY-MM-DDThh:mm:ssZ,
+    deletedRecord transient, 12 metadata formats, 163 sets, and a ListRecords completeListSize of
+    106,805 records over oai_dc.
+
+
+    The wider DSpace REST interface on the same host (/rest, /server/api) is NOT described here: it
+    sits behind a JavaScript bot challenge that returns HTTP 200 with a challenge shell instead of
+    JSON, so no REST contract could be observed. /oai/request is exempt from that challenge.
+  contact:
+    name: POSTECH Library (Tae-Joon Park Digital Library)
+    url: https://library.postech.ac.kr/
+  x-operator: institution
+  x-operator-basis: >-
+    Host oasis.postech.ac.kr resolves to 141.223.5.61, inside POSTECH's own network, and is under
+    POSTECH's registrable domain postech.ac.kr. The OAI-PMH adminEmail is argonetdev@gmail.com,
+    a Korean DSpace integrator address, which reflects who maintains the software, not who operates
+    the service.
+  x-provenance:
+    generated: '2026-08-30'
+    method: derived
+    source: >-
+      Live unauthenticated probes of https://oasis.postech.ac.kr/oai/request (verbs Identify,
+      ListMetadataFormats, ListSets, ListRecords) on 2026-08-30, plus the OAI-PMH 2.0 protocol
+      specification at https://www.openarchives.org/OAI/openarchivesprotocol.html.
+  license:
+    name: OAI-PMH 2.0 protocol (Open Archives Initiative)
+    url: https://www.openarchives.org/OAI/openarchivesprotocol.html
+servers:
+  - url: https://oasis.postech.ac.kr
+    description: POSTECH Library OASIS institutional repository (DSpace), Pohang, South Korea.
+tags:
+  - name: OAI-PMH
+    description: Open Archives Initiative Protocol for Metadata Harvesting, version 2.0.
+paths:
+  /oai/request:
+    get:
+      tags:
+        - OAI-PMH
+      operationId: oaiRequest
+      summary: Issue an OAI-PMH 2.0 request
+      description: >-
+        Single dispatch endpoint for all six OAI-PMH verbs. Every response is an XML OAI-PMH
+        envelope; protocol-level failures are reported as an <error> element inside a 200 response,
+        not as an HTTP status. No credentials are accepted or required.
+      parameters:
+        - name: verb
+          in: query
+          required: true
+          description: The OAI-PMH verb to invoke.
+          schema:
+            type: string
+            enum:
+              - Identify
+              - ListMetadataFormats
+              - ListSets
+              - ListIdentifiers
+              - ListRecords
+              - GetRecord
+        - name: metadataPrefix
+          in: query
+          required: false
+          description: >-
+            Metadata format to return. Required for ListIdentifiers, ListRecords and GetRecord.
+            Twelve prefixes were served on 2026-08-30.
+          schema:
+            type: string
+            enum: [oai_dc, qdc, mods, mets, marc, didl, ore, rdf, dim, xoai, etdms, uketd_dc]
+        - name: identifier
+          in: query
+          required: false
+          description: >-
+            OAI identifier of a single record, required for GetRecord. Sample identifier form
+            reported by Identify: oai:oasis.postech.ac.kr:2014.oak/1234.
+          schema:
+            type: string
+            examples: ['oai:oasis.postech.ac.kr:2014.oak/503']
+        - name: set
+          in: query
+          required: false
+          description: setSpec to restrict a selective harvest. 163 sets were listed on 2026-08-30.
+          schema:
+            type: string
+            examples: ['com_2014.oak_383']
+        - name: from
+          in: query
+          required: false
+          description: Lower bound datestamp, granularity YYYY-MM-DDThh:mm:ssZ.
+          schema:
+            type: string
+            format: date-time
+        - name: until
+          in: query
+          required: false
+          description: Upper bound datestamp, granularity YYYY-MM-DDThh:mm:ssZ.
+          schema:
+            type: string
+            format: date-time
+        - name: resumptionToken
+          in: query
+          required: false
+          description: >-
+            Flow-control token from a previous incomplete list response. Exclusive of all other
+            arguments except verb. Observed on ListRecords with completeListSize 106805 and a page
+            size of 100.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: >-
+            An OAI-PMH XML envelope. Carries the verb payload on success, or an <error> element with
+            an OAI-PMH error code on protocol failure.
+          content:
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/OAIPMHEnvelope'
+components:
+  schemas:
+    OAIPMHEnvelope:
+      type: object
+      description: >-
+        Root OAI-PMH element in namespace http://www.openarchives.org/OAI/2.0/. Described
+        structurally; the wire format is XML, not JSON.
+      properties:
+        responseDate:
+          type: string
+          format: date-time
+        request:
+          type: string
+          description: Echo of the base URL and the arguments accepted.
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+                - badArgument
+                - badResumptionToken
+                - badVerb
+                - cannotDisseminateFormat
+                - idDoesNotExist
+                - noRecordsMatch
+                - noMetadataFormats
+                - noSetHierarchy

@@ -3,8 +3,77 @@ name: Pohang University of Science and Technology
 description: Pohang University of Science and Technology public developer/API footprint review for APIs.json cataloging.
 url: https://raw.githubusercontent.com/api-evangelist/postech/refs/heads/main/review.yml
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-08-30'
 reviews:
+  - date: '2026-08-30'
+    rating: 3
+    summary: >-
+      Re-profiled under the university pipeline, with operator attribution settled before any
+      artifact was saved. The June 2026 review found one surface; four institution-operated
+      surfaces and one tenancy were verified this time, and no vendor contract was saved under
+      POSTECH's name. The OASIS OAI-PMH endpoint is not just alive, it harvests: ListRecords
+      returns real Dublin Core against a declared corpus of 106,805 records, over 163 sets and 12
+      metadata formats, and the path is exempt from the JavaScript bot challenge that fronts the
+      rest of the host. Two surfaces the earlier pass missed entirely are the more interesting
+      finds. POSTECH runs its own SAML 2.0 identity provider, registered in the KAFE federation
+      since 2017 and resolvable through eduGAIN with REFEDS Research and Scholarship support and a
+      SIRTFI assertion — institution-operated by definition and machine-readable, and the IdP's own
+      metadata URL is admin-gated so only the federation copy is public. And POSTECH's Moodle LMS
+      leaves its LTI 1.3 platform JWKS and OAuth 2.0 token endpoint publicly reachable, which most
+      institution-hosted Moodles in this cohort do not. Four education-regime domain standards are
+      evidenced: oai-pmh, lti, saml, and shibboleth (partial — the metadata profile, on
+      SimpleSAMLphp rather than Shibboleth software). No DOI, ORCID, DataCite or Crossref evidence
+      exists and none was invented. postech.dcollection.net is a KERIS tenancy and is recorded as a
+      relationship, not as POSTECH's engineering.
+    endpoints:
+      - url: https://oasis.postech.ac.kr/oai/request?verb=Identify
+        status: 200
+        note: 'OAI-PMH 2.0; repositoryName "OASIS Repository@POSTECHLIBRARY", earliest 2014-12-01T11:46:04Z.'
+      - url: https://oasis.postech.ac.kr/oai/request?verb=ListMetadataFormats
+        status: 200
+        note: 12 formats — oai_dc, qdc, mods, mets, marc, didl, ore, rdf, dim, xoai, etdms, uketd_dc.
+      - url: https://oasis.postech.ac.kr/oai/request?verb=ListSets
+        status: 200
+        note: completeListSize 163, paged 100 at a time with a working resumptionToken.
+      - url: https://oasis.postech.ac.kr/oai/request?verb=ListRecords&metadataPrefix=oai_dc
+        status: 200
+        note: 100 records returned, completeListSize 106805. Selective harvesting actually works.
+      - url: https://oasis.postech.ac.kr/server/api
+        status: 200
+        note: 'Soft-200: JavaScript bot challenge shell, not JSON. DSpace REST not confirmed.'
+      - url: https://oasis.postech.ac.kr/rest/communities
+        status: 200
+        note: Same JS challenge. Consistent with the June finding, now explained.
+      - url: https://plms.postech.ac.kr/mod/lti/certs.php
+        status: 200
+        note: 'Public LTI 1.3 platform JWKS — RSA, RS256, kid 13acf24233904ff6db00.'
+      - url: https://plms.postech.ac.kr/mod/lti/token.php
+        status: 400
+        note: 'LTI Advantage OAuth 2.0 token endpoint; RFC 6749 {"error":"invalid_request"}.'
+      - url: https://plms.postech.ac.kr/webservice/rest/server.php
+        status: 200
+        note: Moodle Web Services enabled; errorcode invalidtoken to anonymous callers.
+      - url: https://plms.postech.ac.kr/local/ubion/course/lists.php?lang=en
+        status: 200
+        note: '"Information on Courses Offered" — a public course listing, HTML only.'
+      - url: https://technical.edugain.org/api.php?action=show_entity&entityid=https://idpass.postech.ac.kr/idp/simplesamlphp&format=json
+        status: 200
+        note: Full SAML 2.0 IdP metadata for POSTECH via eduGAIN; KAFE registration 2017-06-23.
+      - url: https://idpass.postech.ac.kr/simplesaml/saml2/idp/metadata.php
+        status: 302
+        note: IdP's own metadata URL redirects to a login form; only the federation copy is public.
+      - url: https://postech.dcollection.net/
+        status: 200
+        note: KERIS dCollection tenancy (210.102.100.94); tenant, not POSTECH-operated.
+      - url: https://www.postech.ac.kr/eng/usage-guide/privacy_policy.do
+        status: 200
+        note: Personal Information Policy, English. Korean equivalent also 200.
+      - url: https://api.datacite.org/providers?query=postech
+        status: 200
+        note: Zero DataCite providers match POSTECH. No datacite claim made.
+      - url: https://api.crossref.org/members?query=postech
+        status: 200
+        note: Zero Crossref members match POSTECH. No crossref claim made.
   - date: '2026-06-03'
     rating: 2
     summary: >-

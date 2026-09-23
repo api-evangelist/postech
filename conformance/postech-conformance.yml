@@ -1,0 +1,173 @@
+---
+name: Pohang University of Science and Technology — Domain Standard Conformance
+description: >-
+  Education-regime standard conformance for POSTECH, established by live credential-free probe of
+  institution-operated hosts on 2026-08-30. Reward-only: a standard appears under `conformance`
+  only where an anonymous request returned a response that proves the deployment. Education-regime
+  standards with no evidence are listed under `not_found` rather than left implicit, and nothing
+  here is inferred from a prose claim on a POSTECH page.
+generated: '2026-08-30'
+method: probed
+source: >-
+  Live probes of oasis.postech.ac.kr, plms.postech.ac.kr and idpass.postech.ac.kr, plus the eduGAIN
+  technical database entity record for POSTECH, all on 2026-08-30.
+x-operator: institution
+url: https://raw.githubusercontent.com/api-evangelist/postech/main/conformance/postech-conformance.yml
+regime: education
+
+conformance:
+  - standard: oai-pmh
+    status: conformant
+    version: '2.0'
+    operator: institution
+    evidence:
+      url: https://oasis.postech.ac.kr/oai/request?verb=Identify
+      status: 200
+      location: OAI-PMH/Identify/protocolVersion
+      value: '2.0'
+      detail: >-
+        repositoryName "OASIS Repository@POSTECHLIBRARY", baseURL
+        https://oasis.postech.ac.kr/oai/request, repositoryIdentifier oasis.postech.ac.kr,
+        earliestDatestamp 2014-12-01T11:46:04Z, granularity YYYY-MM-DDThh:mm:ssZ, deletedRecord
+        transient, oai-identifier description block present with sample identifier
+        oai:oasis.postech.ac.kr:2014.oak/1234.
+    supporting:
+      - url: https://oasis.postech.ac.kr/oai/request?verb=ListMetadataFormats
+        status: 200
+        location: OAI-PMH/ListMetadataFormats/metadataFormat/metadataPrefix
+        value: oai_dc, qdc, mods, mets, marc, didl, ore, rdf, dim, xoai, etdms, uketd_dc
+        detail: >-
+          Twelve metadata formats, including etdms and uketd_dc — a thesis-oriented configuration
+          consistent with the repository's content, not a bare oai_dc-only default.
+      - url: https://oasis.postech.ac.kr/oai/request?verb=ListSets
+        status: 200
+        location: OAI-PMH/ListSets/resumptionToken/@completeListSize
+        value: '163'
+        detail: >-
+          163 sets across departments and content types, paged 100 at a time with a working
+          resumptionToken.
+      - url: https://oasis.postech.ac.kr/oai/request?verb=ListRecords&metadataPrefix=oai_dc
+        status: 200
+        location: OAI-PMH/ListRecords/resumptionToken/@completeListSize
+        value: '106805'
+        detail: >-
+          Selective harvesting actually works, not just Identify: 100 full Dublin Core records were
+          returned in the first page against a declared corpus of 106,805 records. This is the
+          probe that separates a live harvesting surface from a link.
+
+  - standard: lti
+    status: conformant
+    version: '1.3'
+    operator: institution
+    evidence:
+      url: https://plms.postech.ac.kr/mod/lti/certs.php
+      status: 200
+      location: keys[0]
+      value: 'kty RSA, alg RS256, kid 13acf24233904ff6db00'
+      detail: >-
+        POSTECH's LMS (PLMS, an institution-hosted Moodle on plms.postech.ac.kr) serves a real,
+        public JSON Web Key Set as an LTI 1.3 / LTI Advantage platform. This is the platform
+        keyset an external tool needs to verify POSTECH-issued id_tokens, and it is readable with
+        no credentials. Notably, this is the one education-regime standard that most institutions
+        in this cohort run and never expose — Moodle ships LTI everywhere, but the keyset is
+        usually unreachable.
+    supporting:
+      - url: https://plms.postech.ac.kr/mod/lti/token.php
+        status: 400
+        location: error
+        value: invalid_request
+        detail: >-
+          The paired OAuth 2.0 token endpoint answers an unparameterised request with an RFC 6749
+          error object rather than an HTML page, confirming a live LTI Advantage token service
+          (client_credentials with a signed JWT assertion) rather than a stub route.
+    note: >-
+      The LTI implementation is Moodle's, not POSTECH-authored. What is POSTECH's is the
+      deployment and the decision to leave the platform keyset publicly resolvable.
+
+  - standard: saml
+    status: conformant
+    version: '2.0'
+    operator: institution
+    evidence:
+      url: https://technical.edugain.org/api.php?action=show_entity&entityid=https://idpass.postech.ac.kr/idp/simplesamlphp&format=json
+      status: 200
+      location: md:EntityDescriptor/md:IDPSSODescriptor
+      value: https://idpass.postech.ac.kr/idp/simplesamlphp
+      detail: >-
+        POSTECH operates its own SAML 2.0 identity provider and has it registered in eduGAIN, so
+        the metadata is internationally resolvable and machine-readable. IDPSSODescriptor with
+        SingleSignOnService at https://idpass.postech.ac.kr/simplesaml/saml2/idp/SSOService.php
+        and SingleLogoutService at .../SingleLogoutService.php; mdrpi:RegistrationInfo
+        registrationAuthority http://kafe.kreonet.net, registrationInstant 2017-06-23T09:24:00Z;
+        display name "Pohang University of Science and Technology".
+    supporting:
+      - url: https://idpass.postech.ac.kr/
+        status: 200
+        location: DNS/A
+        value: 141.223.5.141
+        detail: >-
+          The IdP host resolves inside POSTECH's own /16 (141.223.0.0/16), the same network as
+          www.postech.ac.kr (141.223.5.166) and oasis.postech.ac.kr (141.223.5.61). This is
+          institution-run infrastructure, not a hosted identity vendor.
+      - url: https://idpass.postech.ac.kr/simplesaml/saml2/idp/metadata.php
+        status: 302
+        location: Location
+        value: /simplesaml/module.php/core/loginuserpass.php
+        detail: >-
+          The IdP's own metadata URL is admin-gated and redirects to a login form. The federation
+          copy above is the public, machine-readable one — worth recording because a harvester
+          hitting the obvious local URL would wrongly conclude there is nothing here.
+    x-entity-categories:
+      - http://refeds.org/category/research-and-scholarship
+      - https://refeds.org/sirtfi
+    x-federation: KAFE (Korea Access Federation, KREONET/KISTI), member of eduGAIN since 2016-12-01
+
+  - standard: shibboleth
+    status: partial
+    operator: institution
+    evidence:
+      url: https://technical.edugain.org/api.php?action=show_entity&entityid=https://idpass.postech.ac.kr/idp/simplesamlphp&format=json
+      status: 200
+      location: md:IDPSSODescriptor/md:Extensions/shibmd:Scope
+      value: postech.ac.kr
+      detail: >-
+        The entity publishes the Shibboleth metadata extension shibmd:Scope (namespace
+        urn:mace:shibboleth:metadata:1.0) asserting the postech.ac.kr scope, which is what
+        Shibboleth-aware service providers consume. Marked `partial` deliberately: the software is
+        SimpleSAMLphp, not the Shibboleth IdP, so POSTECH conforms to the Shibboleth metadata
+        profile without running Shibboleth. Recording this as full conformance would be the same
+        category error this pipeline exists to prevent.
+
+not_found:
+  - standard: scim
+    detail: >-
+      No SCIM 2.0 endpoint. /ServiceProviderConfig and /scim/v2 were not reachable on any POSTECH
+      host, and no SCIM claim appears in the eduGAIN entity record.
+  - standard: oneroster
+    detail: >-
+      Not found. Korean higher-education student data interchange does not run on OneRoster, and
+      no OneRoster endpoint was found on plms.postech.ac.kr or podium.postech.ac.kr.
+  - standard: ed-fi
+    detail: Not found — Ed-Fi is a US K-12 data standard with no Korean higher-education presence.
+  - standard: caliper
+    detail: >-
+      Not found. PLMS is Moodle and Moodle can emit Caliper, but no Caliper endpoint, sensor
+      configuration or event store was publicly reachable, so no claim is made.
+  - standard: qti
+    detail: >-
+      Not found. No QTI import/export or assessment interface was publicly reachable; PLMS quiz
+      surfaces are behind login.
+  - standard: orcid
+    detail: >-
+      Not found as a deployed integration. The OASIS DSpace REST interface, where a DSpace ORCID
+      external-source integration would be visible, is behind a JavaScript bot challenge, and no
+      ORCID identifier appeared in the 100 oai_dc records sampled from ListRecords.
+  - standard: datacite
+    detail: >-
+      Not found. The DataCite provider API returns zero providers matching POSTECH, and no DOI
+      appeared in the sampled oai_dc records — OASIS identifiers are handles
+      (https://oasis.postech.ac.kr/handle/2014.oak/...), not DOIs.
+  - standard: crossref
+    detail: >-
+      Not found. The Crossref members API returns zero members matching POSTECH; POSTECH is a
+      research producer here, not a registering publisher.

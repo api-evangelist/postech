@@ -1,0 +1,97 @@
+---
+name: POSTECH OASIS Repository OAI-PMH — Response Examples
+description: >-
+  Verbatim excerpts from live, credential-free responses of POSTECH's OAI-PMH endpoint, captured on
+  2026-08-30. Every value below was returned by the endpoint; nothing is illustrative or invented.
+generated: '2026-08-30'
+method: probed
+source: https://oasis.postech.ac.kr/oai/request
+x-operator: institution
+url: https://raw.githubusercontent.com/api-evangelist/postech/main/examples/postech-oasis-oai-pmh-examples.yml
+
+examples:
+  - id: identify
+    request: GET https://oasis.postech.ac.kr/oai/request?verb=Identify
+    status: 200
+    content_type: text/xml
+    response: |-
+      <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+        <responseDate>2026-08-30T21:19:27Z</responseDate>
+        <request verb="Identify">https://oasis.postech.ac.kr/oai/request</request>
+        <Identify>
+          <repositoryName>OASIS Repository@POSTECHLIBRARY</repositoryName>
+          <baseURL>https://oasis.postech.ac.kr/oai/request</baseURL>
+          <protocolVersion>2.0</protocolVersion>
+          <adminEmail>argonetdev@gmail.com</adminEmail>
+          <earliestDatestamp>2014-12-01T11:46:04Z</earliestDatestamp>
+          <deletedRecord>transient</deletedRecord>
+          <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+          <description>
+            <oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier">
+              <scheme>oai</scheme>
+              <repositoryIdentifier>oasis.postech.ac.kr</repositoryIdentifier>
+              <delimiter>:</delimiter>
+              <sampleIdentifier>oai:oasis.postech.ac.kr:2014.oak/1234</sampleIdentifier>
+            </oai-identifier>
+          </description>
+        </Identify>
+      </OAI-PMH>
+
+  - id: list-metadata-formats
+    request: GET https://oasis.postech.ac.kr/oai/request?verb=ListMetadataFormats
+    status: 200
+    metadata_prefixes:
+      - uketd_dc
+      - qdc
+      - didl
+      - mods
+      - ore
+      - mets
+      - oai_dc
+      - rdf
+      - marc
+      - xoai
+      - dim
+      - etdms
+
+  - id: list-sets
+    request: GET https://oasis.postech.ac.kr/oai/request?verb=ListSets
+    status: 200
+    complete_list_size: 163
+    page_size: 100
+    first_set_specs:
+      - com_2014.oak_383
+      - com_2014.oak_388
+      - com_2014.oak_393
+      - com_2014.oak_398
+      - com_2014.oak_403
+
+  - id: list-records
+    request: GET https://oasis.postech.ac.kr/oai/request?verb=ListRecords&metadataPrefix=oai_dc
+    status: 200
+    complete_list_size: 106805
+    records_in_first_page: 100
+    resumption_token_present: true
+    sample_identifiers:
+      - OAK-2014-00001
+      - https://oasis.postech.ac.kr/handle/2014.oak/503
+      - http://postech.dcollection.net/jsp/common/DcLoOrgPer.jsp?sItemId=000000538596
+    note: >-
+      The third identifier form is the tell that POSTECH's thesis pipeline runs through
+      dCollection, the KERIS-operated national digital thesis distribution platform. The OASIS
+      records carry dCollection item links, which is why postech.dcollection.net is recorded in
+      apis.yml as a tenant relationship rather than ignored.
+
+  - id: lti-platform-keyset
+    request: GET https://plms.postech.ac.kr/mod/lti/certs.php
+    status: 200
+    content_type: application/json
+    response_shape: |-
+      {
+        "keys": [
+          { "kty": "RSA", "alg": "RS256", "kid": "13acf24233904ff6db00", "e": "AQAB", "n": "<modulus>" }
+        ]
+      }
+    note: >-
+      The modulus is elided here because it is a live key; the request above returns it in full.
+      This is POSTECH's LTI 1.3 platform keyset, readable without credentials.

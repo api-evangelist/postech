@@ -1,0 +1,56 @@
+---
+name: Pohang University of Science and Technology — API Lifecycle
+description: >-
+  Versioning, change communication and deprecation posture for POSTECH's institution-operated
+  surfaces. The honest summary is that POSTECH runs no API lifecycle: none of its machine-readable
+  surfaces carries a POSTECH-authored version, changelog, deprecation policy or status page. What
+  versioning exists is the upstream protocol's or the upstream product's, and it changes when
+  POSTECH upgrades software, not when POSTECH makes a contract decision.
+generated: '2026-08-30'
+method: derived
+source: >-
+  Live probes on 2026-08-30 plus absence checks — no changelog, status, sunset header or deprecation
+  document was found on any POSTECH host.
+x-operator: institution
+url: https://raw.githubusercontent.com/api-evangelist/postech/main/lifecycle/postech-lifecycle.yml
+
+surfaces:
+  - surface: POSTECH OASIS Repository OAI-PMH
+    versioning: >-
+      Protocol version only. Identify reports protocolVersion 2.0, which is OAI's version, not
+      POSTECH's. There is no repository-level API version, no dated release and no version in the
+      path.
+    change_communication: none_found
+    deprecation_policy: none_found
+    stability_signal: >-
+      earliestDatestamp 2014-12-01 and a 106,805-record corpus indicate a repository that has been
+      continuously operated for over a decade. Longevity is the only stability signal on offer, and
+      it is a real one.
+    sunset_header: absent
+
+  - surface: POSTECH LMS (PLMS) — Moodle Web Services and LTI 1.3
+    versioning: >-
+      Upstream product versioning. Moodle's web service function catalog and LTI 1.3 conformance
+      move with the Moodle release POSTECH runs; the theme in use (coursemos, a Korean Moodle
+      distribution) means the upgrade cadence is a vendor's, not POSTECH's.
+    change_communication: none_found
+    deprecation_policy: none_found
+    sunset_header: absent
+
+  - surface: POSTECH SAML 2.0 Identity Provider
+    versioning: >-
+      SAML 2.0, with metadata freshness managed by the KAFE federation rather than by POSTECH
+      directly. The federation record carries registrationInstant 2017-06-23 and first_seen
+      2017-06-29, and eduGAIN re-publishes the metadata on its own schedule — which is a real
+      lifecycle mechanism, just not one POSTECH operates.
+    change_communication: >-
+      Federation metadata refresh via KAFE (http://kafe.kreonet.net) and eduGAIN. This is the only
+      surface in the repo with any machine-consumable change channel at all.
+    deprecation_policy: none_found
+    sunset_header: absent
+
+posture: >-
+  No developer-facing lifecycle exists to assess. Recording that plainly is the correct measurement
+  for this institution — POSTECH is a consumer of API contracts, not an author of them, and the
+  three live surfaces here are deployments of other people's protocols on POSTECH's own
+  infrastructure.
