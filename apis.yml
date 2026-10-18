@@ -66,7 +66,7 @@ tags:
 - SAML
 - eduGAIN
 - LTI
-- Learning Management System
+- LMS
 - Course Catalog
 tags_raw:
 - University
@@ -203,7 +203,7 @@ apis:
   baseURL: https://plms.postech.ac.kr/mod/lti/certs.php
   tags:
   - LTI
-  - Learning Management System
+  - LMS
   - Moodle
   - Authentication
   - JWKS
@@ -244,6 +244,12 @@ apis:
   humanURL: https://plms.postech.ac.kr/
   baseURL: https://plms.postech.ac.kr/webservice/rest/server.php
   tags:
+  - Moodle
+  - LMS
+  - REST
+  - Authenticated
+  - Education
+  tags_raw:
   - Moodle
   - Learning Management System
   - REST
