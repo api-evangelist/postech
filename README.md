@@ -1,4 +1,4 @@
-# Pohang University of Science and Technology (postech)
+# Pohang University of Science and Technology
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,80 +64,115 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Pohang University of Science and Technology (POSTECH) is a private research university in Pohang, South Korea, founded in 1986 by POSCO. This repository catalogs POSTECH's public, machine-readable footprint as an [APIs.json](https://apisjson.org) profile, with **operator attribution settled before any artifact was saved** — a university is a federation of buyers, and most surfaces that appear to be an institution's are a vendor's contract running under its name.
+Pohang University of Science and Technology (POSTECH) is a private research university in Pohang, North Gyeongsang, South Korea, founded in 1986 by the steelmaker POSCO and consistently ranked inside the QS world top 100. POSTECH operates no developer portal, no open-data program and no API it authored itself — but it is not empty, and three genuinely institution-operated machine-readable surfaces were verified live on 2026-08-30, all of them on POSTECH's own network (141.223.0.0/16). The OASIS institutional repository serves a fully anonymous OAI-PMH 2.0 harvesting endpoint over a corpus of 106,805 records in twelve metadata formats across 163 sets, reaching back to 2014. POSTECH runs its own SAML 2.0 identity provider at idpass.postech.ac.kr, registered in the KAFE federation since 2017 and resolvable through eduGAIN, supporting the REFEDS Research and Scholarship entity category and asserting SIRTFI — machine-readable institutional infrastructure that almost nothing in this cohort catalogues. And POSTECH's LMS publishes a live, public LTI 1.3 Advantage platform keyset and OAuth 2.0 token endpoint, which most institution-hosted Moodles keep unreachable. Everything else is a login wall or someone else's platform: the PODIUM portal, admissions and certificate systems are gated; the DSpace REST interface sits behind a JavaScript bot challenge that returns 200 with a challenge shell; and the thesis pipeline runs through postech.dcollection.net, a tenancy on the KERIS-operated national dCollection platform, recorded here as a relationship rather than as POSTECH's engineering.
 
-- APIs.json: https://raw.githubusercontent.com/api-evangelist/postech/refs/heads/main/apis.yml
-- Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=postech-api-evangelist&utm_content=repo
+**Areas:** University · Higher Education · Education · South Korea · Asia · Private Research University · Research · Research Data · Institutional Repository · OAI-PMH · DSpace · Library
 
-## Type
+## Pohang University of Science and Technology on APIs.io
 
-- Index
-- Provider
-- 1st-Party
+Everything profiled for Pohang University of Science and Technology is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/postech/](https://apis.io/providers/postech/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (5)
 
-University, Higher Education, Education, South Korea, Korea, Asia, Private Research University, Research, Research Data, Institutional Repository, OAI-PMH, DSpace, Library, Identity Federation, SAML, eduGAIN, LTI, Learning Management System, Course Catalog
+- [POSTECH SAML 2.0 Identity Provider](https://apis.io/apis/postech/identity-federation/) — POSTECH's own SAML 2.0 identity provider, entityID https://idpass.postech.ac.kr/idp/simplesamlphp, registered in KAFE (the Korea Access Federation, run on…
+- [POSTECH LMS (PLMS) LTI 1.3 Advantage Platform](https://apis.io/apis/postech/plms-lti/) — POSTECH's learning management system is an institution-hosted Moodle (coursemos distribution) acting as an LTI 1.3 Advantage platform, and unusually for…
+- [POSTECH LMS (PLMS) Moodle Web Services](https://apis.io/apis/postech/plms-webservices/) — The Moodle Web Services REST interface is enabled on POSTECH's LMS and is publicly reachable, but every anonymous call returns the moodle_exception…
+- [POSTECH dCollection Thesis Repository (KERIS tenancy)](https://apis.io/apis/postech/dcollection/) — POSTECH's tenancy on dCollection, the Korea Education and Research Information Service national digital thesis and dissertation distribution system. The…
+- [Pohang University of Science and Technology OAI PMH API](https://apis.io/apis/postech/postech-oai-pmh-api/) — Open Archives Initiative Protocol for Metadata Harvesting, version 2.0.
 
-## Surfaces
+### Published properties
 
-Every entry carries an `x-operator`: `institution` means POSTECH runs the thing; `tenant` means POSTECH's data on someone else's platform.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-| Surface | Operator | State |
-|---|---|---|
-| **OASIS Repository OAI-PMH** — `https://oasis.postech.ac.kr/oai/request` | institution | Anonymous. 106,805 records, 163 sets, 12 metadata formats, earliest datestamp 2014-12-01. |
-| **SAML 2.0 Identity Provider** — `https://idpass.postech.ac.kr/idp/simplesamlphp` | institution | Registered in KAFE since 2017, resolvable via eduGAIN. REFEDS R&S + SIRTFI. |
-| **PLMS LTI 1.3 Advantage platform** — `https://plms.postech.ac.kr/mod/lti` | institution | Public platform JWKS and OAuth 2.0 token endpoint. Tool registration is admin-only. |
-| **PLMS Moodle Web Services** — `https://plms.postech.ac.kr/webservice/rest/server.php` | institution | Live but token-gated; anonymous calls return `invalidtoken`. |
-| **dCollection thesis repository** — `https://postech.dcollection.net/` | tenant | KERIS-operated national platform. Relationship recorded; no KERIS contract saved here. |
+#### JSON-LD (1)
 
-## Domain Standard Conformance (`education` regime)
+Linked-data contexts for the provider's vocabulary.
 
-Evidenced by live probe, recorded in [conformance/postech-conformance.yml](conformance/postech-conformance.yml):
+- [Postech Context](https://apis.io/jsonld/postech/postech-context/)
 
-- **oai-pmh 2.0** — conformant. Identify, ListMetadataFormats, ListSets and ListRecords all answer anonymously.
-- **lti 1.3** — conformant. Public platform JWKS at `/mod/lti/certs.php`, RFC 6749 token endpoint at `/mod/lti/token.php`.
-- **saml 2.0** — conformant. Full IdP metadata published through eduGAIN.
-- **shibboleth** — partial. The Shibboleth metadata profile (`shibmd:Scope`) on SimpleSAMLphp, not Shibboleth software.
+#### Security (2)
 
-No `scim`, `oneroster`, `ed-fi`, `caliper`, `qti`, `orcid`, `datacite` or `crossref` evidence was found, and none was invented.
+Authentication, trust centre, and vulnerability disclosure.
 
-## Artifacts
+- [Postech Authentication](https://apis.io/security/postech/postech-authentication/)
+- [Postech Domain Security](https://apis.io/security/postech/postech-domain-security/)
 
-- OpenAPI (derived, OAI-PMH): [openapi/postech-oasis-oai-pmh-openapi.yml](openapi/postech-oasis-oai-pmh-openapi.yml)
-- Conformance: [conformance/postech-conformance.yml](conformance/postech-conformance.yml)
-- Authentication: [authentication/postech-authentication.yml](authentication/postech-authentication.yml)
-- Errors: [errors/postech-errors.yml](errors/postech-errors.yml)
-- Lifecycle: [lifecycle/postech-lifecycle.yml](lifecycle/postech-lifecycle.yml)
-- Examples: [examples/postech-oasis-oai-pmh-examples.yml](examples/postech-oasis-oai-pmh-examples.yml)
-- Plans & Pricing: [plans/postech-plans-pricing.yml](plans/postech-plans-pricing.yml)
-- Rate Limits: [rate-limits/postech-rate-limits.yml](rate-limits/postech-rate-limits.yml)
-- FinOps: [finops/postech-finops.yml](finops/postech-finops.yml)
-- Review (probe log): [review.yml](review.yml)
+#### Plans and pricing (1)
 
-## Timestamps
+Published plans, tiers and prices.
 
-- Created: 2026-06-03
-- Modified: 2026-08-30
+- [Postech Plans Pricing](https://apis.io/plans/postech/postech-plans-pricing/)
 
-## Common Properties
+#### Rate limits (1)
 
-- Website: https://www.postech.ac.kr/eng/
-- Privacy Policy: https://www.postech.ac.kr/eng/usage-guide/privacy_policy.do
-- Library: https://library.postech.ac.kr/
-- Research Repository (OASIS): https://oasis.postech.ac.kr/
-- Course Catalog (PLMS): https://plms.postech.ac.kr/local/ubion/course/lists.php?lang=en
-- Portal (PODIUM): https://podium.postech.ac.kr/
-- LinkedIn: https://kr.linkedin.com/school/pohang-university-of-science-and-technology/
+Published request limits.
 
-## Notes
+- [Postech Rate Limits](https://apis.io/rate-limits/postech/postech-rate-limits/)
 
-- POSTECH operates **no developer portal, no open-data program and no API it authored itself**. Every surface above is POSTECH's deployment of someone else's protocol — OAI-PMH, SAML 2.0, LTI 1.3 — on POSTECH's own infrastructure. That is a correct and complete measurement, not a thin one.
-- The DSpace REST interface (`/rest`, `/server/api`) returns **HTTP 200 carrying a JavaScript bot challenge**, not JSON. A client trusting the status code would mistake the challenge page for an API response. No REST contract is recorded.
-- The IdP's own metadata URL 302s to a login form; the machine-readable copy lives in the eduGAIN technical database. A harvester hitting only the obvious local URL would wrongly conclude there is no identity surface here.
-- `github.com/postech` is an unrelated stale 2013 org. POSTECH research labs run their own GitHub orgs (POSTECH-CVLab, postech-imlab); those are lab projects, not institutional APIs, and are **not** recorded as POSTECH's GitHub organization.
-- No endpoints were fabricated. Every URL in this profile was probed, and the status codes are in [review.yml](review.yml).
+#### FinOps (1)
 
-## Maintainers
+What the API costs to run, by operation.
 
-- Kin Lane — kin@apievangelist.com
+- [Postech Finops](https://apis.io/finops/postech/postech-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.postech.ac.kr/eng/)
+- [Blog](https://www.postech.ac.kr/eng/news-center/university_news.do)
+- [Terms of service](https://www.postech.ac.kr/kor/usage-guide/copyright_policy.do)
+- [Privacy policy](https://www.postech.ac.kr/eng/usage-guide/privacy_policy.do)
+
+## API Evangelist rating
+
+**Kin Score 25.7** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 22.3 |
+| Contract governance | 0.0 |
+| Operational transparency | 5.3 |
+| Developer ergonomics | 33.3 |
+| Access clarity | 26.3 |
+
+**Agent readiness 23.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/postech/](https://apis.io/providers/postech/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Pohang University of Science and Technology: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/postech/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
